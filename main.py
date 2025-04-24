@@ -1,31 +1,29 @@
-#Module import
 import pygame
 
-#Module Initialization
+# Cấu hình
+GRID_SIZE = 10
+CELL_SIZE = 40
+MARGIN = 20
+BOARD_WIDTH = GRID_SIZE * CELL_SIZE
+WIDTH = BOARD_WIDTH * 2 + MARGIN * 3
+HEIGHT = GRID_SIZE * CELL_SIZE + MARGIN * 2
+
 pygame.init()
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Battle Ship - 2 Player")
 
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+BLUE = (0, 100, 255)
+RED = (255, 0, 0)
+GREEN = (0, 200, 0)
 
-#Game setting and variables
-SCREENWIDTH = 800
-SCREENHEIGHT = 600
-ROWs = 10
-COLS = 10
-CELLSIZE = 50
+# Vòng lặp chính
+running = True
+while running:
 
-#Pygame Display Initialization 
-GAMESCREEN = pygame.display.set_mode((SCREENHEIGHT, SCREENHEIGHT))
-pygame.display.set_caption('BATTLE SHIP')
-
-#Main game Loop
-RUNGAME = True
-while RUNGAME:
-    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            RUNGAME = False
-            
-    pygame.display.update()
-    
+            running = False
+
 pygame.quit()
-
-
