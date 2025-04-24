@@ -48,7 +48,30 @@ def create_grid():
 # Khởi tạo
 grids = [create_grid(), create_grid()]
 
-
+# Xử lý khi click
+def hande_click (pos):
+    #Tạo biến toàn cục
+    global current_player, game_over, winner
+    
+    #Nếu game over thì kết thúc
+    if(game_over): 
+        return
+    
+    #Xác định đối thủ là 0 - 1
+    opponent = 1 - current_player
+    
+    offset_x = MARGIN + opponent * (BOARD_WIDTH + MARGIN)
+    
+    #Chia vị trí click chuột thành 2 thành phần x và y 
+    x,y = pos
+    
+    #Kiểm tra xem có click vào bảng của đối thủ không
+    if offset_x <= x <= offset_x + BOARD_WIDTH and MARGIN <= y <= HEIGHT - MARGIN:
+        #Tính tọa độ theo bảng lưới 
+        row = (x - offset_x) // CELL_SIZE
+        col = (y - MARGIN)   // CELL_SIZE
+        
+    
 # Vòng lặp chính
 running = True
 while running:
