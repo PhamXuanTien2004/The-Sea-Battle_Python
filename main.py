@@ -18,6 +18,23 @@ BLUE = (0, 100, 255)
 RED = (255, 0, 0)
 GREEN = (0, 200, 0)
 
+font = pygame.font.SysFont("Arial", 22)
+
+# Load hình ảnh và âm thanh
+ship_img = pygame.image.load("tau_ngam.png")
+ship_img = pygame.transform.scale(ship_img, (CELL_SIZE, CELL_SIZE))
+explosion_img = pygame.image.load("lua2.png")
+explosion_img = pygame.transform.scale(explosion_img, (CELL_SIZE, CELL_SIZE))
+cursor_img = pygame.image.load("ngom.png")
+cursor_img = pygame.transform.scale(cursor_img, (30, 30))
+
+pygame.mixer.init()
+hit_sound = pygame.mixer.Sound("no.mp3") # Âm thanh khi bắn trúng tàu 
+miss_sound = pygame.mixer.Sound("truot.mp3") # Âm thanh khi bắn trượt 
+
+# Ẩn con trỏ mặc định
+pygame.mouse.set_visible(False)
+
 # Vòng lặp chính
 running = True
 while running:
