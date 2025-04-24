@@ -35,6 +35,20 @@ miss_sound = pygame.mixer.Sound("truot.mp3") # Âm thanh khi bắn trượt
 # Ẩn con trỏ mặc định
 pygame.mouse.set_visible(False)
 
+# Tạo lưới
+def create_grid():
+    grid = [] 
+    for _ in range(GRID_SIZE):  
+        row = []  
+        for _ in range(GRID_SIZE):  
+            row.append("~")  
+        grid.append(row)  
+    return grid 
+
+# Khởi tạo
+grids = [create_grid(), create_grid()]
+
+
 # Vòng lặp chính
 running = True
 while running:
