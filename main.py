@@ -4,7 +4,7 @@ import random
 # Cấu hình
 GRID_SIZE = 10
 CELL_SIZE = 40
-MARGIN = 20
+MARGIN = 50
 BOARD_WIDTH = GRID_SIZE * CELL_SIZE
 WIDTH = BOARD_WIDTH * 2 + MARGIN * 3
 HEIGHT = GRID_SIZE * CELL_SIZE + MARGIN * 2
@@ -108,6 +108,9 @@ def check_win(player):
 # Khởi tạo
 grids = [create_grid(), create_grid()]
 ships = [place_ships(), place_ships()]
+current_player = 0
+game_over = False
+winner = None
 
 
 #Vẽ lưới 
@@ -186,7 +189,7 @@ def draw_custom_cursor():
     screen.blit(cursor_img, (mouse_x - 15, mouse_y - 15))
 
 # Xử lý khi click
-def hande_click (pos):
+def handle_click (pos):
     #Tạo biến toàn cục
     global current_player, game_over, winner
     
@@ -205,16 +208,34 @@ def hande_click (pos):
     #Kiểm tra xem có click vào bảng của đối thủ không
     if offset_x <= x <= offset_x + BOARD_WIDTH and MARGIN <= y <= HEIGHT - MARGIN:
         #Tính tọa độ theo bảng lưới 
-        row = (x - offset_x) // CELL_SIZE
-        col = (y - MARGIN)   // CELL_SIZE
-        
+        col = (x - offset_x) // CELL_SIZE
+        row = (y - MARGIN)   // CELL_SIZE
+        if grids[opponent][row][col] == "~":
+            hit_any = False
+            for ship in ships[opponent]:
+                if (row, col) in ship["positions"]:
+                    idx = ship["positions"].index((row, col))
+                    ship["hit"][idx] = True
+                    grids[opponent][row][col] = "H"
+                    hit_sound.play()
+                    hit_any = True
+                    if check_win(opponent):
+                        game_over = True
+                        winner = current_player
+                    break
+            if not hit_any:
+                grids[opponent][row][col] = "M"
+                miss_sound.play()
+                current_player = opponent
     
 # Vòng lặp chính
 running = True
 while running:
-
+    display()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            handle_click(pygame.mouse.get_pos())
 
 pygame.quit()
