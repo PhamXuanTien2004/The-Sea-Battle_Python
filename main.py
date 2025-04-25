@@ -46,6 +46,15 @@ def create_grid():
         grid.append(row)  
     return grid 
 
+# hàm kiểm tra xem tàu mới định đặt có đè lên tàu cũ không
+def is_overlapping(new_positions, existing_ships):
+    for ship in existing_ships:
+        for pos in ship["positions"]:
+            for new_pos in new_positions:
+                if new_pos == pos:
+                    return True  # Trùng vị trí
+    return False  # Không trùng
+
 # Đặt tàu ngẫu nhiên
 def place_ships():
     ship_sizes = [10]
@@ -76,6 +85,10 @@ def place_ships():
             positions.append((r, c))
 
         if not valid:
+            continue
+
+        #  kiểm tra xem tàu mới định đặt có đè lên tàu cũ không   
+        if is_overlapping(positions, ships):
             continue
  
     
