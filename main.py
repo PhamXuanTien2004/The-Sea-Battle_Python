@@ -119,6 +119,11 @@ def draw_winner_label():
     msg = font.render(f"Player {winner + 1} win!", True, GREEN)
     screen.blit(msg, (WIDTH // 2 - msg.get_width() // 2, 0))
 
+#Hiển thị hình ảnh con trỏ mới    
+def draw_custom_cursor():
+    mouse_x, mouse_y = pygame.mouse.get_pos()
+    screen.blit(cursor_img, (mouse_x - 15, mouse_y - 15))
+
 # Xử lý khi click
 def hande_click (pos):
     #Tạo biến toàn cục
