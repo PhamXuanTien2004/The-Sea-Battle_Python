@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # Cấu hình
 GRID_SIZE = 10
@@ -45,8 +46,49 @@ def create_grid():
         grid.append(row)  
     return grid 
 
+# Đặt tàu ngẫu nhiên
+def place_ships():
+    ship_sizes = [10]
+    ships = []
+
+
+    while len(ships) < len(ship_sizes):
+        size = ship_sizes[len(ships)]
+        row = random.randint(0, GRID_SIZE - 1)
+        col = random.randint(0, GRID_SIZE - 1)
+        horizontal = random.choice([True, False]) # True: Đặt ngang, False: Đặt dọc. 
+
+        positions = [] # lưu các tọa độ (row, col) mà tàu sẽ chiếm.
+        valid = True # kiểm tra xem tàu có đặt hợp lệ không.
+
+        for i in range(size):
+            if horizontal:
+                r = row         
+                c = col + i     
+            else:
+                r = row + i     
+                c = col   
+
+
+            if r >= GRID_SIZE or c >= GRID_SIZE:
+                valid = False
+                break
+            positions.append((r, c))
+
+        if not valid:
+            continue
+ 
+    
+
+        ships.append({ "positions": positions, "hit": [False]*size, "horizontal": horizontal })
+
+    return ships
+
+
+
 # Khởi tạo
 grids = [create_grid(), create_grid()]
+ships = [place_ships(), place_ships()]
 
 # Xử lý khi click
 def hande_click (pos):
