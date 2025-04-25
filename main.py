@@ -158,6 +158,23 @@ def draw_current_turn_label():
     label = font.render(f"Player {current_player + 1}", True, BLACK)
     screen.blit(label, (WIDTH // 2 - label.get_width() // 2, HEIGHT - 35))
 
+#Vẽ bảng người chơi
+def draw_player_boards():
+    for player_index in [0, 1]:
+        offset_x = MARGIN + player_index * (BOARD_WIDTH + MARGIN)
+        draw_grid(player_index, offset_x)
+        draw_ships_if_destroyed(player_index, offset_x)
+        
+#Hiển thị màn hình
+def display():
+    screen.fill(WHITE)
+    draw_player_boards()
+    draw_current_turn_label()
+    if game_over:
+        draw_winner_label()
+    draw_custom_cursor()
+    pygame.display.flip()
+        
 #Hiện thị người chơi thắng
 def draw_winner_label():
     msg = font.render(f"Player {winner + 1} win!", True, GREEN)
