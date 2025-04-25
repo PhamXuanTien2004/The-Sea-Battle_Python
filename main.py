@@ -109,6 +109,16 @@ def check_win(player):
 grids = [create_grid(), create_grid()]
 ships = [place_ships(), place_ships()]
 
+#Hiển thị lượt người chơi
+def draw_current_turn_label():
+    label = font.render(f"Player {current_player + 1}", True, BLACK)
+    screen.blit(label, (WIDTH // 2 - label.get_width() // 2, HEIGHT - 35))
+
+#Hiện thị người chơi thắng
+def draw_winner_label():
+    msg = font.render(f"Player {winner + 1} win!", True, GREEN)
+    screen.blit(msg, (WIDTH // 2 - msg.get_width() // 2, 0))
+
 # Xử lý khi click
 def hande_click (pos):
     #Tạo biến toàn cục
