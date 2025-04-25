@@ -90,13 +90,19 @@ def place_ships():
         #  kiểm tra xem tàu mới định đặt có đè lên tàu cũ không   
         if is_overlapping(positions, ships):
             continue
- 
-    
 
         ships.append({ "positions": positions, "hit": [False]*size, "horizontal": horizontal })
 
     return ships
 
+#  hàm kiểm tra xem người chơi đó đã thắng hay chưa, 
+# tức là tất cả tàu của họ đã bị bắn trúng hết hay chưa.
+def check_win(player):
+    for ship in ships[player]:
+        for hit in ship["hit"]:
+            if not hit:
+                return False
+    return True
 
 
 # Khởi tạo
