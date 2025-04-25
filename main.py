@@ -109,6 +109,50 @@ def check_win(player):
 grids = [create_grid(), create_grid()]
 ships = [place_ships(), place_ships()]
 
+
+#Vẽ lưới 
+def draw_grid(player_index, offset_x):
+    for row in range(GRID_SIZE):
+        for col in range(GRID_SIZE):
+            x = offset_x + col * CELL_SIZE
+            y = MARGIN + row * CELL_SIZE
+            rect = pygame.Rect(x, y, CELL_SIZE, CELL_SIZE)
+            pygame.draw.rect(screen, BLACK, rect, 1)
+
+            cell_status = grids[player_index][row][col]
+            if cell_status == "M":
+                pygame.draw.circle(screen, BLUE, rect.center, 6)
+            elif cell_status == "H":
+                pygame.draw.circle(screen, RED, rect.center, 6)
+
+# Vẽ tàu đã bị phá hủy
+def draw_destroyed_ship(ship, offset_x):
+    first_cell = ship["positions"][0]
+    ship_length = len(ship["positions"])
+    x = offset_x + first_cell[1] * CELL_SIZE
+    y = MARGIN + first_cell[0] * CELL_SIZE
+
+    if ship["horizontal"]:
+        img = pygame.transform.scale(ship_img, (CELL_SIZE * ship_length, CELL_SIZE))
+    else:
+        img = pygame.transform.rotate(ship_img, -90)
+        img = pygame.transform.scale(img, (CELL_SIZE, CELL_SIZE * ship_length))
+
+    screen.blit(img, (x, y))
+
+    # Hiệu ứng nổ ở giữa tàu
+    mid_index = ship_length // 2
+    mid_row, mid_col = ship["positions"][mid_index]
+    exp_x = offset_x + mid_col * CELL_SIZE
+    exp_y = MARGIN + mid_row * CELL_SIZE
+    screen.blit(explosion_img, (exp_x, exp_y))
+      
+#Vẽ tàu nếu đã được phá 
+def draw_ships_if_destroyed(player_index, offset_x):
+    for ship in ships[player_index]:
+        if all(ship["hit"]):
+            draw_destroyed_ship(ship, offset_x)
+
 #Hiển thị lượt người chơi
 def draw_current_turn_label():
     label = font.render(f"Player {current_player + 1}", True, BLACK)
